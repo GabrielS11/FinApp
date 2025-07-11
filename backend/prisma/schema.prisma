@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model alerts {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  type       String?   @db.VarChar(150)
+  message    String?
+  read       Boolean?  @default(false)
+  created_in DateTime? @default(now()) @db.Timestamp(6)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_fk")
+}
+
+model budget {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  category   String    @db.VarChar(50)
+  max_price  Decimal   @db.Decimal(10, 2)
+  month      Int
+  year       Int
+  created_in DateTime? @default(now()) @db.Timestamp(6)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+}
+
+model expenses {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  description String?
+  price       Decimal   @db.Decimal(10, 2)
+  category    String?   @db.VarChar(100)
+  date        DateTime  @db.Date
+  created_in  DateTime? @default(now()) @db.Timestamp(6)
+  users       users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+}
+
+model investments {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  stock      String?   @db.VarChar(50)
+  type       String?   @db.VarChar(20)
+  quantity   Decimal?  @db.Decimal(15, 6)
+  unit_price Decimal?  @db.Decimal(10, 2)
+  currency   String?   @default("EUR") @db.VarChar(10)
+  date       DateTime  @db.Date
+  created_in DateTime? @default(now()) @db.Timestamp(6)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_fk")
+}
+
+model recurring_expenses {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  description String?
+  price       Decimal   @db.Decimal(10, 2)
+  category    String?   @db.VarChar(50)
+  frequency   String?   @db.VarChar(20)
+  next_date   DateTime? @db.Date
+  active      Boolean?  @default(true)
+  created_in  DateTime? @default(now()) @db.Timestamp(6)
+  users       users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_fk")
+}
+
+model users {
+  id                 Int                  @id @default(autoincrement())
+  name               String?              @db.VarChar(100)
+  email              String               @unique @db.VarChar(100)
+  password           String               @db.VarChar(255)
+  created_in         DateTime?            @default(now()) @db.Timestamp(6)
+  alerts             alerts[]
+  budget             budget[]
+  expenses           expenses[]
+  investments        investments[]
+  recurring_expenses recurring_expenses[]
+}
