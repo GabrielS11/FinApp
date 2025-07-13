@@ -36,6 +36,7 @@ model expenses {
   category    String?   @db.VarChar(100)
   date        DateTime  @db.Date
   created_in  DateTime? @default(now()) @db.Timestamp(6)
+  is_deleted  Boolean?  @default(false)
   users       users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
 }
 

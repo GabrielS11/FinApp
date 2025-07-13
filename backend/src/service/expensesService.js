@@ -1,0 +1,47 @@
+import {
+  addExpense,
+  deleteExpense,
+  getAllExpenses,
+  getMonthExpenses,
+  getOneExpense,
+  updateExpense,
+} from "../repository/expensesRepository.js";
+import { getMesEAnoAtual } from "../utils/datas.js";
+
+export async function listMonthExpensesService(user_id) {
+  const { mes, ano } = getMesEAnoAtual();
+  return await getMonthExpenses(user_id, mes, ano);
+}
+
+export async function addExpenseService(
+  user_id,
+  description,
+  price,
+  category,
+  date
+) {
+  return await addExpense(user_id, description, price, category, date);
+}
+
+export async function updateExpenseService(
+  id,
+  user_id,
+  description,
+  price,
+  category,
+  date
+) {
+  return await updateExpense(id, user_id, description, price, category, date);
+}
+
+export async function deleteExpenseService(id, user_id) {
+  return await deleteExpense(id, user_id);
+}
+
+export async function listAllExpensesService(user_id) {
+  return await getAllExpenses(user_id);
+}
+
+export async function listOneExpenseService(id, user_id) {
+  return await getOneExpense(id, user_id);
+}

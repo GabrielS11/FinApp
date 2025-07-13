@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import prisma from "./prismaClient.js";
+import expensesRoutes from "./routes/expensesRoutes.js";
+import authMiddleware from "./middleWare/authMiddleware.js";
 dotenv.config();
 
 const app = express();
@@ -13,6 +15,7 @@ app.use(express.json());
 
 //Setting the routes to use
 app.use("/", authRoutes);
+app.use("/expenses", authMiddleware, expensesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running in port: ${PORT}`);
