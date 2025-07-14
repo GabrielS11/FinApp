@@ -14,7 +14,7 @@ app.use(cors()); //<-- Lets the APIRest received request from anyone
 app.use(express.json());
 
 //Setting the routes to use
-app.use("/", authRoutes);
+app.use("/auth", authRoutes);
 app.use("/expenses", authMiddleware, expensesRoutes);
 
 app.listen(PORT, () => {

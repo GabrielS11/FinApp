@@ -72,6 +72,6 @@ export async function listAllExpensesController(req, res) {
 export async function listOneExpenseController(req, res) {
   const user_id = req.user_id;
   const { id } = req.params;
-  const expense = await listOneExpenseController(id, user_id);
+  const expense = await listOneExpenseService(id, user_id);
   res.json(expense);
 }

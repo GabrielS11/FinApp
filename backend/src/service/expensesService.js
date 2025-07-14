@@ -6,10 +6,10 @@ import {
   getOneExpense,
   updateExpense,
 } from "../repository/expensesRepository.js";
-import { getMesEAnoAtual } from "../utils/datas.js";
+import { getActualMonthYear } from "../utils/date.js";
 
 export async function listMonthExpensesService(user_id) {
-  const { mes, ano } = getMesEAnoAtual();
+  const { mes, ano } = getActualMonthYear();
   return await getMonthExpenses(user_id, mes, ano);
 }
 

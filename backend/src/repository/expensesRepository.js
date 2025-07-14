@@ -1,4 +1,4 @@
-import { prisma } from "../prismaClient.js";
+import prisma from "../prismaClient.js";
 
 export async function getMonthExpenses(user_id, mes, ano) {
   return await prisma.despesa.findMany({
