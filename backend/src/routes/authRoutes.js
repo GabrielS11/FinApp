@@ -1,7 +1,4 @@
 import express, { json } from "express";
-import prisma from "../prismaClient.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import {
   loginController,
   registeController,
