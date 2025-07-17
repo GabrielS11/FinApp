@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5004;
 app.use(cors()); //<-- Lets the APIRest received request from anyone
 app.use(express.json());
 
-//Setting the routes to use
+//Setting the routes to use - Auth// expenses// budget// alerts// investments
 app.use("/auth", authRoutes);
 app.use("/expenses", authMiddleware, expensesRoutes);
 
