@@ -18,6 +18,5 @@ export async function getUserByEmail(email) {
       email: email,
     },
   });
-
   return user;
 }
