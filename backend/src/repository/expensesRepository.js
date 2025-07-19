@@ -1,15 +1,6 @@
 import prisma from "../prismaClient.js";
 
 export async function getMonthExpenses(user_id, mes, ano) {
-  const aggregate = await prisma.expenses.aggregate({
-    where: {
-      user_id: user_id,
-    },
-    _sum: {
-      price: true,
-    },
-  });
-  console.log(aggregate);
   return await prisma.expenses.findMany({
     where: {
       user_id: user_id,
@@ -23,7 +14,15 @@ export async function getMonthExpenses(user_id, mes, ano) {
   });
 }
 
-export async function addExpense(user_id, description, price, category, date) {
+export async function addExpense(
+  user_id,
+  description,
+  price,
+  category,
+  date,
+  current_month,
+  current_year
+) {
   const newExpense = await prisma.expenses.create({
     data: {
       user_id: user_id,
@@ -31,6 +30,14 @@ export async function addExpense(user_id, description, price, category, date) {
       price: price,
       category: category,
       date: date,
+    },
+  });
+  //Check to see if it is alredy created, if not we create and put the aggregate inside
+  const addingToMonthlyExpenses = await prisma.monthly_expenses.upsert({
+    where: {
+      user_id: user_id,
+      month: current_month,
+      year: current_year,
     },
   });
 
