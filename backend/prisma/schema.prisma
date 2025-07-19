@@ -72,9 +72,29 @@ model users {
   email              String               @unique @db.VarChar(100)
   password           String               @db.VarChar(255)
   created_in         DateTime?            @default(now()) @db.Timestamp(6)
+  is_deleted         Boolean?             @default(false)
   alerts             alerts[]
   budget             budget[]
+  category_expenses  category_expenses[]
   expenses           expenses[]
   investments        investments[]
+  monthly_expenses   monthly_expenses[]
   recurring_expenses recurring_expenses[]
+}
+
+model category_expenses {
+  id       Int      @id @default(autoincrement())
+  user_id  Int?
+  price    Decimal? @db.Decimal(10, 2)
+  category String?  @db.VarChar(50)
+  users    users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_fk")
+}
+
+model monthly_expenses {
+  id      Int      @id @default(autoincrement())
+  user_id Int?
+  price   Decimal? @db.Decimal(10, 2)
+  month   Int
+  year    Int
+  users   users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_fk")
 }

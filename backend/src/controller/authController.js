@@ -1,11 +1,11 @@
 import express from "express";
-import { registerService } from "../service/authService.js";
+import { loginService, registerService } from "../service/authService.js";
 
 export async function registeController(req, res) {
   const { name, email, password } = req.body;
   try {
     const token = await registerService(name, email, password);
-    res.json(token);
+    res.json({ token: token });
   } catch (error) {
     res.status(503).json({ message: "Registration failed" });
   }
@@ -14,8 +14,8 @@ export async function registeController(req, res) {
 export async function loginController(req, res) {
   const { email, password } = req.body;
   try {
-    const token = await loginController(email, password);
-    res.json(token);
+    const token = await loginService(email, password);
+    res.json({ token: token });
   } catch (err) {
     if (err.message === "User not Found") {
       return res.status(404).json({ message: err.message });

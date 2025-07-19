@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-function authMiddleware(res, req, next) {
+function authMiddleware(req, res, next) {
   const token = req.headers["authorization"];
 
   if (!token) {
@@ -9,8 +9,9 @@ function authMiddleware(res, req, next) {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      res.send(401).json({ message: "Invalid Token" });
+      return res.status(401).json({ message: "Invalid Token" });
     }
+
     req.user_id = decoded.id;
     next();
   });
