@@ -5,9 +5,9 @@
  */
 
 export function getActualMonthYear() {
-  const hoje = new Date();
+  const today = new Date();
   return {
-    mes: hoje.getMonth() + 1,
-    ano: hoje.getFullYear(),
+    month: today.getMonth() + 1,
+    year: today.getFullYear(),
   };
 }

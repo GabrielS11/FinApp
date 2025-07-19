@@ -1,16 +1,25 @@
 import prisma from "../prismaClient.js";
 
 export async function getMonthExpenses(user_id, mes, ano) {
-  return await prisma.despesa.findMany({
+  const aggregate = await prisma.expenses.aggregate({
+    where: {
+      user_id: user_id,
+    },
+    _sum: {
+      price: true,
+    },
+  });
+  console.log(aggregate);
+  return await prisma.expenses.findMany({
     where: {
       user_id: user_id,
       is_deleted: false,
-      data: {
+      date: {
         gte: new Date(`${ano}-${String(mes).padStart(2, "0")}-01`),
         lt: new Date(`${ano}-${String(mes + 1).padStart(2, "0")}-01`),
       },
     },
-    orderBy: { data: "desc" },
+    orderBy: { date: "desc" },
   });
 }
 

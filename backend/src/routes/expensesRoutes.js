@@ -11,7 +11,7 @@ import {
 
 const router = express.Router();
 
-router.get("/mes-atual", listMonthExpensesController);
+router.get("/current-month", listMonthExpensesController);
 
 router.post("/add-expense", addExpenseController);
 

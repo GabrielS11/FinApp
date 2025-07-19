@@ -9,8 +9,8 @@ import {
 import { getActualMonthYear } from "../utils/date.js";
 
 export async function listMonthExpensesService(user_id) {
-  const { mes, ano } = getActualMonthYear();
-  return await getMonthExpenses(user_id, mes, ano);
+  const { month, year } = getActualMonthYear();
+  return await getMonthExpenses(user_id, month, year);
 }
 
 export async function addExpenseService(

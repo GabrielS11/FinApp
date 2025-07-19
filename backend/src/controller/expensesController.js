@@ -10,6 +10,7 @@ import {
 
 export async function listMonthExpensesController(req, res) {
   const user_id = req.user_id;
+  console.log(1);
   const despesas = await listMonthExpensesService(user_id);
   return res.json(despesas);
 }

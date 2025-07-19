@@ -3,7 +3,48 @@ POST http://localhost:6000/auth/register
 Content-Type: application/json
 
 {
-    "name": "Mateus",
-    "email": "mat@gmail.com",
+    "name": "David",
+    "email": "david@gmail.com",
     "password": "123456"
 }
+
+
+###Login to see if its working
+POST http://localhost:6000/auth/login
+Content-Type: application/json
+
+{
+    "email": "david@gmail.com",
+    "password": "123456"
+}
+
+
+###Get user Details to see if its working
+GET http://localhost:6000/user/info
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQyOTQ3LCJleHAiOjE3NTMwMjkzNDd9.en_N5tQAnifJLuD5ZdEnQ7QMcreA-eclvcJaSMkmIIs
+Content-Type: application/json
+
+
+### Deleting the user
+DELETE  http://localhost:6000/user/delete
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQyOTQ3LCJleHAiOjE3NTMwMjkzNDd9.en_N5tQAnifJLuD5ZdEnQ7QMcreA-eclvcJaSMkmIIs
+Content-Type: application/json
+
+
+###Update user to see if its working
+PUT http://localhost:6000/user/edit
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQyOTQ3LCJleHAiOjE3NTMwMjkzNDd9.en_N5tQAnifJLuD5ZdEnQ7QMcreA-eclvcJaSMkmIIs
+Content-Type: application/json
+
+{
+    "name": "DavidSA",
+    "email": "davidSA@gmail.com"
+}
+
+
+### Cheking expenses
+GET http://localhost:6000/expenses/current-month
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQyOTQ3LCJleHAiOjE3NTMwMjkzNDd9.en_N5tQAnifJLuD5ZdEnQ7QMcreA-eclvcJaSMkmIIs
+Content-Type: application/json
+
+
