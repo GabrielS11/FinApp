@@ -1,0 +1,61 @@
+import prisma from "../prismaClient.js";
+
+export async function getMontlyEpxpensesByUserId(params) {}
+
+export async function getMontlyEpxpensesByUserIdMonthYear(
+  user_id,
+  month,
+  year
+) {
+  const thisMonthsExpenses = await prisma.monthly_expenses.findFirst({
+    where: {
+      user_id: user_id,
+      month: month,
+      year: year,
+    },
+  });
+  return thisMonthsExpenses;
+}
+
+export async function addExpensesToMonthlyExpenses(
+  user_id,
+  price,
+  month,
+  year
+) {
+  const monthsExpenses = await getMontlyEpxpensesByUserIdMonthYear(
+    user_id,
+    month,
+    year
+  );
+
+  if (!monthsExpenses) {
+    return await createMonthlyExpense(user_id, price, month, year);
+  }
+
+  const total = monthsExpenses.price + price;
+
+  const updatedMonthlyExpenses = await prisma.monthly_expenses.update({
+    where: {
+      user_id: user_id,
+      month: month,
+      year: year,
+    },
+    data: {
+      price: total,
+    },
+  });
+
+  return updatedMonthlyExpenses;
+}
+
+export async function createMonthlyExpense(user_id, price, month, year) {
+  return await prisma.monthly_expenses.create({
+    data: {
+      user_id: user_id,
+      price: price,
+      month: month,
+      year: year,
+    },
+  });
+}

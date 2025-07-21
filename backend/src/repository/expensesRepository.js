@@ -1,4 +1,5 @@
 import prisma from "../prismaClient.js";
+import { addExpensesToMonthlyExpenses } from "./monthlyExpensesRepository.js";
 
 export async function getMonthExpenses(user_id, mes, ano) {
   return await prisma.expenses.findMany({
@@ -32,15 +33,16 @@ export async function addExpense(
       date: date,
     },
   });
-  //Check to see if it is alredy created, if not we create and put the aggregate inside
-  //To do !!!!
-  const addingToMonthlyExpenses = await prisma.monthly_expenses.upsert({
-    where: {
-      user_id: user_id,
-      month: current_month,
-      year: current_year,
-    },
-  });
+  //Esta a dar erro pois muito provavelmente inserimos dados a mao no postgresql CORRIGIR!!!!
+
+  const addedToMonthlyExpense = await addExpensesToMonthlyExpenses(
+    user_id,
+    price,
+    current_month,
+    current_year
+  );
+
+  console.log(addedToMonthlyExpense);
 
   return newExpense;
 }
@@ -81,17 +83,17 @@ export async function deleteExpense(id, user_id) {
 }
 
 export async function getAllExpenses(user_id) {
-  return await prisma.despesa.findMany({
+  return await prisma.expenses.findMany({
     where: {
       user_id: user_id,
       is_deleted: false,
     },
-    orderBy: { data: "desc" },
+    orderBy: { date: "desc" },
   });
 }
 
 export async function getOneExpense(id, user_id) {
-  return await prisma.despesa.findUnique({
+  return await prisma.expenses.findUnique({
     where: {
       id: id,
       user_id: user_id,
