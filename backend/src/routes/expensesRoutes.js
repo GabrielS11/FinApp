@@ -17,10 +17,10 @@ router.post("/add-expense", addExpenseController);
 
 router.put("/update-expense", updateExpenseController);
 
-router.delete("/delete-expense", deleteExpenseController);
+router.delete("/delete-expense/:id", deleteExpenseController);
 
 router.get("/all-expenses", listAllExpensesController);
 
-router.get("/one-expense", listOneExpenseController);
+router.get("/one-expense/:id", listOneExpenseController);
 
 export default router;

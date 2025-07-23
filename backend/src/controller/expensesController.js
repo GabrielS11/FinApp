@@ -7,6 +7,7 @@ import {
   listAllExpensesService,
   listOneExpenseService,
 } from "../service/expensesService.js";
+import { PrismaClient } from "@prisma/client/extension";
 
 export async function listMonthExpensesController(req, res) {
   const user_id = req.user_id;
@@ -36,8 +37,10 @@ export async function addExpenseController(req, res) {
 }
 
 export async function updateExpenseController(req, res) {
-  const { id } = req.body;
-  const { description, price, category, date } = req.params;
+  const { id } = req.params; //Returns in string and we are expecting an int
+  const numId = Number(id); //Converts it to a Number
+  const { description, price, category, date } = req.body;
+  console.log(typeof price);
   const user_id = req.user_id;
 
   if (!price || !date) {
@@ -47,7 +50,7 @@ export async function updateExpenseController(req, res) {
   }
 
   const updateExpense = await updateExpenseService(
-    id,
+    numId,
     user_id,
     description,
     price,
@@ -58,9 +61,11 @@ export async function updateExpenseController(req, res) {
 }
 
 export async function deleteExpenseController(req, res) {
-  const { id } = req.params;
   const user_id = req.user_id;
-  await deleteExpenseService(id, user_id);
+  const { id } = req.params; //Returns in string and we are expecting an int
+  const numId = Number(id); //Converts it to a Number
+
+  await deleteExpenseService(numId, user_id);
   res.json({ message: "Expense deleted" });
 }
 
@@ -72,7 +77,8 @@ export async function listAllExpensesController(req, res) {
 
 export async function listOneExpenseController(req, res) {
   const user_id = req.user_id;
-  const { id } = req.params;
-  const expense = await listOneExpenseService(id, user_id);
+  const { id } = req.params; //Returns in string and we are expecting an int
+  const numId = Number(id); //Converts it to a Number
+  const expense = await listOneExpenseService(numId, user_id);
   res.json(expense);
 }

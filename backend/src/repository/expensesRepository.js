@@ -33,7 +33,6 @@ export async function addExpense(
       date: date,
     },
   });
-  //Esta a dar erro pois muito provavelmente inserimos dados a mao no postgresql CORRIGIR!!!!
 
   const addedToMonthlyExpense = await addExpensesToMonthlyExpenses(
     user_id,

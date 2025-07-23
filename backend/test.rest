@@ -14,26 +14,26 @@ POST http://localhost:6000/auth/login
 Content-Type: application/json
 
 {
-    "email": "david@gmail.com",
+    "email": "davidSA@gmail.com",
     "password": "123456"
 }
 
 
 ###Get user Details to see if its working
 GET http://localhost:6000/user/info
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQyOTQ3LCJleHAiOjE3NTMwMjkzNDd9.en_N5tQAnifJLuD5ZdEnQ7QMcreA-eclvcJaSMkmIIs
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQ4NDIxLCJleHAiOjE3NTMwMzQ4MjF9.5G6fy9w9I6J-BrdsXUJOhL_whDzuVn9N-WlUNDbxcI0
 Content-Type: application/json
 
 
 ### Deleting the user
 DELETE  http://localhost:6000/user/delete
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQyOTQ3LCJleHAiOjE3NTMwMjkzNDd9.en_N5tQAnifJLuD5ZdEnQ7QMcreA-eclvcJaSMkmIIs
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQ4NDIxLCJleHAiOjE3NTMwMzQ4MjF9.5G6fy9w9I6J-BrdsXUJOhL_whDzuVn9N-WlUNDbxcI0
 Content-Type: application/json
 
 
 ###Update user to see if its working
 PUT http://localhost:6000/user/edit
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQyOTQ3LCJleHAiOjE3NTMwMjkzNDd9.en_N5tQAnifJLuD5ZdEnQ7QMcreA-eclvcJaSMkmIIs
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQ4NDIxLCJleHAiOjE3NTMwMzQ4MjF9.5G6fy9w9I6J-BrdsXUJOhL_whDzuVn9N-WlUNDbxcI0
 Content-Type: application/json
 
 {
@@ -42,9 +42,29 @@ Content-Type: application/json
 }
 
 
-### Cheking expenses
+### Cheking this months expenses
 GET http://localhost:6000/expenses/current-month
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUyOTQyOTQ3LCJleHAiOjE3NTMwMjkzNDd9.en_N5tQAnifJLuD5ZdEnQ7QMcreA-eclvcJaSMkmIIs
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMjg0MDExLCJleHAiOjE3NTMzNzA0MTF9.DeChGY9HpwoMotZx6hOeXgzoS6C5Bhe0RXb0MWXzraw
+Content-Type: application/json
+
+###Getting all expenses 
+GET http://localhost:6000/expenses/all-expenses
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMjg0MDExLCJleHAiOjE3NTMzNzA0MTF9.DeChGY9HpwoMotZx6hOeXgzoS6C5Bhe0RXb0MWXzraw
 Content-Type: application/json
 
 
+###Adding expenses 
+POST http://localhost:6000/expenses/add-expense
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMjg0MDExLCJleHAiOjE3NTMzNzA0MTF9.DeChGY9HpwoMotZx6hOeXgzoS6C5Bhe0RXb0MWXzraw
+Content-Type: application/json
+
+{
+    "description": "Ola gastei este dinheiro em vinho verde",
+    "price": "29.99",
+    "category": "Entretenimento",
+    "date": "2025-07-21T00:00:00.000Z"
+}
+
+###Getting a specific expenses by putting it in the url
+GET http://localhost:6000/expenses/one-expense/3
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMjg0MDExLCJleHAiOjE3NTMzNzA0MTF9.DeChGY9HpwoMotZx6hOeXgzoS6C5Bhe0RXb0MWXzraw

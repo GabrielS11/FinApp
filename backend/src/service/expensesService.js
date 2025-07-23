@@ -20,7 +20,10 @@ export async function addExpenseService(
   category,
   date
 ) {
-  const { month, year } = getActualMonthYear();
+  const getDateForMonthlyExpenses = new Date(date);
+
+  const month = getDateForMonthlyExpenses.getMonth() + 1;
+  const year = getDateForMonthlyExpenses.getFullYear();
   return await addExpense(
     user_id,
     description,
