@@ -1,5 +1,8 @@
 import prisma from "../prismaClient.js";
-import { addExpensesToMonthlyExpenses } from "./monthlyExpensesRepository.js";
+import {
+  addExpensesToMonthlyExpenses,
+  deletePriceFromOneExpense,
+} from "./monthlyExpensesRepository.js";
 
 export async function getMonthExpenses(user_id, mes, ano) {
   return await prisma.expenses.findMany({
@@ -34,14 +37,13 @@ export async function addExpense(
     },
   });
 
+  //Adding the price to the monthly expense
   const addedToMonthlyExpense = await addExpensesToMonthlyExpenses(
     user_id,
     price,
     current_month,
     current_year
   );
-
-  console.log(addedToMonthlyExpense);
 
   return newExpense;
 }
@@ -54,6 +56,10 @@ export async function updateExpense(
   category,
   date
 ) {
+  //Checking if the price changed to see if we need to update the monthly expense
+  const expense = await getOneExpense(id, user_id);
+  const startingPrice = expense.price;
+
   const updatedExpense = await prisma.expenses.update({
     where: {
       id: parseInt(id),
@@ -66,11 +72,13 @@ export async function updateExpense(
       date,
     },
   });
-  return updatedExpense;
+
+  const changedPrice = updatedExpense.price;
+  if (startingPrice) return updatedExpense;
 }
 
 export async function deleteExpense(id, user_id) {
-  await prisma.expenses.update({
+  const deletedExpense = await prisma.expenses.update({
     where: {
       id: id,
       user_id: user_id,
@@ -79,6 +87,19 @@ export async function deleteExpense(id, user_id) {
       is_deleted: true,
     },
   });
+
+  //Deleting it in the monthly expenses so there isnt any errors
+  const price = deletedExpense.price;
+  const dateObj = deletedExpense.date;
+
+  const month = dateObj.getMonth() + 1;
+  const year = dateObj.getFullYear();
+  const deleteFromMonthlyExpense = await deletePriceFromOneExpense(
+    user_id,
+    month,
+    year,
+    price
+  );
 }
 
 export async function getAllExpenses(user_id) {

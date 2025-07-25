@@ -33,13 +33,11 @@ export async function addExpensesToMonthlyExpenses(
     return await createMonthlyExpense(user_id, price, month, year);
   }
 
-  const total = monthsExpenses.price + price;
+  const total = Number(monthsExpenses.price) + Number(price);
 
   const updatedMonthlyExpenses = await prisma.monthly_expenses.update({
     where: {
-      user_id: user_id,
-      month: month,
-      year: year,
+      id: monthsExpenses.id,
     },
     data: {
       price: total,
@@ -58,4 +56,42 @@ export async function createMonthlyExpense(user_id, price, month, year) {
       year: year,
     },
   });
+}
+
+export async function deletePriceFromOneExpense(user_id, month, year, price) {
+  const monthlyExpense = await getMontlyEpxpensesByUserIdMonthYear(
+    user_id,
+    month,
+    year
+  );
+
+  const finalPrice = Number(monthlyExpense.price) - Number(price);
+
+  await prisma.monthly_expenses.update({
+    where: {
+      id: monthlyExpense.id,
+    },
+    data: {
+      price: finalPrice,
+    },
+  });
+}
+
+export async function updateMonthlyExpensePrice(user_id, month, year, price) {
+  const monthlyExpense = await getMontlyEpxpensesByUserIdMonthYear(
+    user_id,
+    month,
+    year
+  );
+
+  const updatedMonthlyExpense = await prisma.monthly_expenses.update({
+    where: {
+      id: monthlyExpense.id,
+    },
+    data: {
+      price: price,
+    },
+  });
+
+  console.log(updatedMonthlyExpense);
 }
