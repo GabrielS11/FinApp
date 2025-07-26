@@ -15,7 +15,7 @@ router.get("/current-month", listMonthExpensesController);
 
 router.post("/add-expense", addExpenseController);
 
-router.put("/update-expense", updateExpenseController);
+router.put("/update-expense/:id", updateExpenseController);
 
 router.delete("/delete-expense/:id", deleteExpenseController);
 

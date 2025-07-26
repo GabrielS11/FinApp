@@ -2,6 +2,7 @@ import prisma from "../prismaClient.js";
 import {
   addExpensesToMonthlyExpenses,
   deletePriceFromOneExpense,
+  updateMonthlyExpensePrice,
 } from "./monthlyExpensesRepository.js";
 
 export async function getMonthExpenses(user_id, mes, ano) {
@@ -58,7 +59,7 @@ export async function updateExpense(
 ) {
   //Checking if the price changed to see if we need to update the monthly expense
   const expense = await getOneExpense(id, user_id);
-  const startingPrice = expense.price;
+  const startingPrice = Number(expense.price);
 
   const updatedExpense = await prisma.expenses.update({
     where: {
@@ -73,8 +74,23 @@ export async function updateExpense(
     },
   });
 
-  const changedPrice = updatedExpense.price;
-  if (startingPrice) return updatedExpense;
+  const changedPrice = Number(updatedExpense.price);
+  const dateObj = updatedExpense.date;
+  const month = dateObj.getMonth() + 1;
+  const year = dateObj.getFullYear();
+
+  //OS preços do mes nao estao a atualizar corretamente
+  if (startingPrice != changedPrice) {
+    const diference = changedPrice - startingPrice;
+    const updatedmonthlyExpense = await updateMonthlyExpensePrice(
+      user_id,
+      month,
+      year,
+      diference
+    );
+  }
+
+  return updatedExpense;
 }
 
 export async function deleteExpense(id, user_id) {

@@ -84,12 +84,14 @@ export async function updateMonthlyExpensePrice(user_id, month, year, price) {
     year
   );
 
+  const finalPrice = Number(monthlyExpense.price) + Number(price);
+
   const updatedMonthlyExpense = await prisma.monthly_expenses.update({
     where: {
       id: monthlyExpense.id,
     },
     data: {
-      price: price,
+      price: finalPrice,
     },
   });
 

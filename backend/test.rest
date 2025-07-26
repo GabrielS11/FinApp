@@ -44,27 +44,44 @@ Content-Type: application/json
 
 ### Cheking this months expenses
 GET http://localhost:6000/expenses/current-month
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMjg0MDExLCJleHAiOjE3NTMzNzA0MTF9.DeChGY9HpwoMotZx6hOeXgzoS6C5Bhe0RXb0MWXzraw
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzNTQ0OTQwLCJleHAiOjE3NTM2MzEzNDB9.wWG4Qobj0tc6zNsgUfBMKq7RqM9A755nHqANAXrp9FM
 Content-Type: application/json
 
 ###Getting all expenses 
 GET http://localhost:6000/expenses/all-expenses
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMjg0MDExLCJleHAiOjE3NTMzNzA0MTF9.DeChGY9HpwoMotZx6hOeXgzoS6C5Bhe0RXb0MWXzraw
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzNTQ0OTQwLCJleHAiOjE3NTM2MzEzNDB9.wWG4Qobj0tc6zNsgUfBMKq7RqM9A755nHqANAXrp9FM
 Content-Type: application/json
 
 
 ###Adding expenses 
 POST http://localhost:6000/expenses/add-expense
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMjg0MDExLCJleHAiOjE3NTMzNzA0MTF9.DeChGY9HpwoMotZx6hOeXgzoS6C5Bhe0RXb0MWXzraw
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMzc0NzQyLCJleHAiOjE3NTM0NjExNDJ9.eyf5tfi1jgVUZCU3JvCY7TkFUQI9q5TRl0VYJWZTsVg
 Content-Type: application/json
 
 {
-    "description": "Ola gastei este dinheiro em vinho verde",
-    "price": "29.99",
+    "description": "Continente",
+    "price": 20.01,
     "category": "Entretenimento",
-    "date": "2025-07-21T00:00:00.000Z"
+    "date": "2025-06-13T00:00:00.000Z"
 }
 
 ###Getting a specific expenses by putting it in the url
-GET http://localhost:6000/expenses/one-expense/3
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMjg0MDExLCJleHAiOjE3NTMzNzA0MTF9.DeChGY9HpwoMotZx6hOeXgzoS6C5Bhe0RXb0MWXzraw
+GET http://localhost:6000/expenses/one-expense/12
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzMzc0NzQyLCJleHAiOjE3NTM0NjExNDJ9.eyf5tfi1jgVUZCU3JvCY7TkFUQI9q5TRl0VYJWZTsVg
+
+###Deleting expenses
+DELETE http://localhost:6000/expenses/delete-expense/21
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzNDM4OTQ5LCJleHAiOjE3NTM1MjUzNDl9.hU2nuH0FwFneicpY5SLJbJQXuKnIlWul-An7C2k0MZM
+
+
+###Update expenses
+PUT http://localhost:6000/expenses/delete-expense/22
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzUzNTQ0OTQwLCJleHAiOjE3NTM2MzEzNDB9.wWG4Qobj0tc6zNsgUfBMKq7RqM9A755nHqANAXrp9FM
+Content-Type: application/json
+
+{
+    "description": "Continente",
+    "price": "20.01",
+    "category": "Entretenimento",
+    "date": "2025-06-13T00:00:00.000Z",
+}
