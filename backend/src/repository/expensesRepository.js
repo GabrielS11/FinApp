@@ -79,7 +79,6 @@ export async function updateExpense(
   const month = dateObj.getMonth() + 1;
   const year = dateObj.getFullYear();
 
-  //OS preços do mes nao estao a atualizar corretamente
   if (startingPrice != changedPrice) {
     const diference = changedPrice - startingPrice;
     const updatedmonthlyExpense = await updateMonthlyExpensePrice(
