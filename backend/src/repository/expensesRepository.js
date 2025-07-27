@@ -1,6 +1,5 @@
 import prisma from "../prismaClient.js";
 import {
-  addExpensesToMonthlyExpenses,
   deletePriceFromOneExpense,
   updateMonthlyExpensePrice,
 } from "./monthlyExpensesRepository.js";
@@ -19,15 +18,7 @@ export async function getMonthExpenses(user_id, mes, ano) {
   });
 }
 
-export async function addExpense(
-  user_id,
-  description,
-  price,
-  category,
-  date,
-  current_month,
-  current_year
-) {
+export async function addExpense(user_id, description, price, category, date) {
   const newExpense = await prisma.expenses.create({
     data: {
       user_id: user_id,
@@ -37,14 +28,6 @@ export async function addExpense(
       date: date,
     },
   });
-
-  //Adding the price to the monthly expense
-  const addedToMonthlyExpense = await addExpensesToMonthlyExpenses(
-    user_id,
-    price,
-    current_month,
-    current_year
-  );
 
   return newExpense;
 }

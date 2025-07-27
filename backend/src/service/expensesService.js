@@ -7,6 +7,11 @@ import {
   updateExpense,
 } from "../repository/expensesRepository.js";
 import { getActualMonthYear } from "../utils/date.js";
+import {
+  addExpensesToMonthlyExpenses,
+  deletePriceFromOneExpense,
+  updateMonthlyExpensePrice,
+} from "../repository/monthlyExpensesRepository.js";
 
 export async function listMonthExpensesService(user_id) {
   const { month, year } = getActualMonthYear();
@@ -22,17 +27,28 @@ export async function addExpenseService(
 ) {
   const getDateForMonthlyExpenses = new Date(date);
 
-  const month = getDateForMonthlyExpenses.getMonth() + 1;
-  const year = getDateForMonthlyExpenses.getFullYear();
-  return await addExpense(
+  const newExpense = await addExpense(
     user_id,
     description,
     price,
     category,
-    date,
-    month,
-    year
+    date
   );
+
+  if (newExpense) {
+    //Adding the price to the monthly expense
+    const dateObj = newExpense.date;
+    const month = dateObj.getMonth() + 1;
+    const year = dateObj.getFullYear();
+    const addedToMonthlyExpense = await addExpensesToMonthlyExpenses(
+      user_id,
+      price,
+      month,
+      year
+    );
+  }
+
+  return newExpense;
 }
 
 export async function updateExpenseService(
