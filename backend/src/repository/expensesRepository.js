@@ -1,8 +1,4 @@
 import prisma from "../prismaClient.js";
-import {
-  deletePriceFromOneExpense,
-  updateMonthlyExpensePrice,
-} from "./monthlyExpensesRepository.js";
 
 export async function getMonthExpenses(user_id, mes, ano) {
   return await prisma.expenses.findMany({
@@ -40,10 +36,6 @@ export async function updateExpense(
   category,
   date
 ) {
-  //Checking if the price changed to see if we need to update the monthly expense
-  const expense = await getOneExpense(id, user_id);
-  const startingPrice = Number(expense.price);
-
   const updatedExpense = await prisma.expenses.update({
     where: {
       id: parseInt(id),
@@ -56,21 +48,6 @@ export async function updateExpense(
       date,
     },
   });
-
-  const changedPrice = Number(updatedExpense.price);
-  const dateObj = updatedExpense.date;
-  const month = dateObj.getMonth() + 1;
-  const year = dateObj.getFullYear();
-
-  if (startingPrice != changedPrice) {
-    const diference = changedPrice - startingPrice;
-    const updatedmonthlyExpense = await updateMonthlyExpensePrice(
-      user_id,
-      month,
-      year,
-      diference
-    );
-  }
 
   return updatedExpense;
 }
@@ -85,19 +62,7 @@ export async function deleteExpense(id, user_id) {
       is_deleted: true,
     },
   });
-
-  //Deleting it in the monthly expenses so there isnt any errors
-  const price = deletedExpense.price;
-  const dateObj = deletedExpense.date;
-
-  const month = dateObj.getMonth() + 1;
-  const year = dateObj.getFullYear();
-  const deleteFromMonthlyExpense = await deletePriceFromOneExpense(
-    user_id,
-    month,
-    year,
-    price
-  );
+  return deletedExpense;
 }
 
 export async function getAllExpenses(user_id) {

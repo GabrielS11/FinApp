@@ -59,11 +59,60 @@ export async function updateExpenseService(
   category,
   date
 ) {
-  return await updateExpense(id, user_id, description, price, category, date);
+  //Doing this to store the original price so we can see if we have to change
+  //in the monthly price
+  const currentExpense = await getOneExpense(id, user_id);
+  const startingPrice = Number(currentExpense.price);
+  console.log(`------STARTINGPRICE-----------// ${startingPrice}`);
+
+  const updatedExpense = await updateExpense(
+    id,
+    user_id,
+    description,
+    price,
+    category,
+    date
+  );
+
+  if (updatedExpense) {
+    const changedPrice = Number(updatedExpense.price);
+    console.log(`------CHANGEDPRICE-----------// ${changedPrice}`);
+    const dateObj = updatedExpense.date;
+    const month = dateObj.getMonth() + 1;
+    const year = dateObj.getFullYear();
+
+    if (startingPrice != changedPrice) {
+      const diference = changedPrice - startingPrice;
+      console.log(`------DIFERENCE-----------// ${diference}`);
+      const updatedMonthlyExpense = await updateMonthlyExpensePrice(
+        user_id,
+        month,
+        year,
+        diference
+      );
+    }
+  }
+
+  return updatedExpense;
 }
 
 export async function deleteExpenseService(id, user_id) {
-  return await deleteExpense(id, user_id);
+  const deletedExpense = await deleteExpense(id, user_id);
+  if (deletedExpense) {
+    const price = deletedExpense.price;
+    const dateObj = deletedExpense.date;
+
+    const month = dateObj.getMonth() + 1;
+    const year = dateObj.getFullYear();
+    const deleteFromMonthlyExpense = await deletePriceFromOneExpense(
+      user_id,
+      month,
+      year,
+      price
+    );
+  }
+
+  return;
 }
 
 export async function listAllExpensesService(user_id) {
