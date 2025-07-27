@@ -1,6 +1,12 @@
 import prisma from "../prismaClient.js";
 
-export async function getMontlyEpxpensesByUserId(params) {}
+export async function getMontlyExpensesByUserId(user_id) {
+  return await prisma.monthly_expenses.findMany({
+    where: {
+      user_id: user_id,
+    },
+  });
+}
 
 export async function getMontlyEpxpensesByUserIdMonthYear(
   user_id,
