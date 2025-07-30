@@ -100,6 +100,4 @@ export async function updateMonthlyExpensePrice(user_id, month, year, price) {
       price: finalPrice,
     },
   });
-
-  console.log(updatedMonthlyExpense);
 }
