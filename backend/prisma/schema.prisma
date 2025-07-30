@@ -87,6 +87,8 @@ model category_expenses {
   user_id  Int?
   price    Decimal? @db.Decimal(10, 2)
   category String?  @db.VarChar(50)
+  month    Int?
+  year     Int?
   users    users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_fk")
 }
 
