@@ -7,6 +7,11 @@ import prisma from "../prismaClient.js";
  *
  *
  * buscar todas ///// Buscar as deste mes //// buscar por categoria ////// buscar por categoria para atualizar
+ *
+ *
+ *
+ *
+ * MUDAR O MONTHLYEXPENSES PARA TER A LOGICA NO SERVICE!!!!!!!!!!!!!!!!!!!!!!!!!
  */
 
 export async function getCategoriesByUserId(user_id) {
