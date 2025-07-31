@@ -25,13 +25,14 @@ export async function addExpenseService(
   category,
   date
 ) {
-  const getDateForMonthlyExpenses = new Date(date);
+  // const getDateForMonthlyExpenses = new Date(date);
+  const optimizedCategory = category.toLowerCase();
 
   const newExpense = await addExpense(
     user_id,
     description,
     price,
-    category,
+    optimizedCategory,
     date
   );
 
@@ -63,7 +64,6 @@ export async function updateExpenseService(
   //in the monthly price
   const currentExpense = await getOneExpense(id, user_id);
   const startingPrice = Number(currentExpense.price);
-  console.log(`------STARTINGPRICE-----------// ${startingPrice}`);
 
   const updatedExpense = await updateExpense(
     id,
@@ -76,14 +76,12 @@ export async function updateExpenseService(
 
   if (updatedExpense) {
     const changedPrice = Number(updatedExpense.price);
-    console.log(`------CHANGEDPRICE-----------// ${changedPrice}`);
     const dateObj = updatedExpense.date;
     const month = dateObj.getMonth() + 1;
     const year = dateObj.getFullYear();
 
     if (startingPrice != changedPrice) {
       const diference = changedPrice - startingPrice;
-      console.log(`------DIFERENCE-----------// ${diference}`);
       const updatedMonthlyExpense = await updateMonthlyExpensePrice(
         user_id,
         month,
