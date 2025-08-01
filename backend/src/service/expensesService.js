@@ -12,6 +12,7 @@ import {
   deletePriceFromOneExpense,
   updateMonthlyExpensePrice,
 } from "../repository/monthlyExpensesRepository.js";
+import { deleteExpenseFromCategoryExpenseService } from "../service/categoryExpensesService.js";
 
 export async function listMonthExpensesService(user_id) {
   const { month, year } = getActualMonthYear();
@@ -97,17 +98,27 @@ export async function updateExpenseService(
 export async function deleteExpenseService(id, user_id) {
   const deletedExpense = await deleteExpense(id, user_id);
   if (deletedExpense) {
+    //Collecting data to use in the following functions
     const price = deletedExpense.price;
+    const category = deletedExpense.category;
     const dateObj = deletedExpense.date;
-
     const month = dateObj.getMonth() + 1;
     const year = dateObj.getFullYear();
+    //Using the data collected
     const deleteFromMonthlyExpense = await deletePriceFromOneExpense(
       user_id,
       month,
       year,
       price
     );
+    const deleteFromCategoryExpense =
+      await deleteExpenseFromCategoryExpenseService(
+        user_id,
+        category,
+        price,
+        month,
+        year
+      );
   }
 
   return;

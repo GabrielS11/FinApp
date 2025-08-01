@@ -67,3 +67,43 @@ export async function addExpensesToCategoryExpenses(
     },
   });
 }
+
+export async function updateExpensesToCategoryExpenses(
+  user_id,
+  price,
+  category,
+  month,
+  year
+) {
+  return await prisma.category_expenses.update({
+    where: {
+      user_id: user_id,
+      category: category,
+      month: month,
+      year: year,
+    },
+    data: {
+      price: price,
+    },
+  });
+}
+
+export async function deleteExpenseFromCategoryExpense(
+  user_id,
+  category,
+  price,
+  month,
+  year
+) {
+  return await prisma.category_expenses.update({
+    where: {
+      user_id: user_id,
+      category: category,
+      month: month,
+      year: year,
+    },
+    data: {
+      price: price,
+    },
+  });
+}
