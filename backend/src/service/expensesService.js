@@ -12,7 +12,11 @@ import {
   deletePriceFromOneExpense,
   updateMonthlyExpensePrice,
 } from "../repository/monthlyExpensesRepository.js";
-import { deleteExpenseFromCategoryExpenseService } from "../service/categoryExpensesService.js";
+import {
+  deleteExpenseFromCategoryExpenseService,
+  addExpensesToCategoryExpensesService,
+  updateExpensesToCategoryExpensesService,
+} from "../service/categoryExpensesService.js";
 
 export async function listMonthExpensesService(user_id) {
   const { month, year } = getActualMonthYear();
@@ -45,6 +49,13 @@ export async function addExpenseService(
     const addedToMonthlyExpense = await addExpensesToMonthlyExpenses(
       user_id,
       price,
+      month,
+      year
+    );
+    const addedToCategoryExpense = await addExpensesToCategoryExpensesService(
+      user_id,
+      price,
+      optimizedCategory,
       month,
       year
     );
@@ -88,6 +99,14 @@ export async function updateExpenseService(
         month,
         year,
         diference
+      );
+
+      const update = await updateExpensesToCategoryExpensesService(
+        user_id,
+        diference,
+        category,
+        month,
+        year
       );
     }
   }

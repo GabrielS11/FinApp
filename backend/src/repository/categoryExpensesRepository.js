@@ -7,9 +7,7 @@ import prisma from "../prismaClient.js";
  *
  *
  * buscar todas ///// Buscar as deste mes //// buscar por categoria ////// buscar por categoria para atualizar
- *
- *
- *
+ *TESTAR UPDATED NAS EXPENSES A VER SE ESTA A ATUALIZAR AQUI E O DELETE
  *
  * MUDAR O MONTHLYEXPENSES PARA TER A LOGICA NO SERVICE!!!!!!!!!!!!!!!!!!!!!!!!!
  */
@@ -23,7 +21,7 @@ export async function getCategoriesByUserId(user_id) {
 }
 
 export async function getCategoriesByUserIdMonthYear(user_id, month, year) {
-  return await prisma.category_expenses.findMany({
+  return await prisma.category_expenses.findFirst({
     where: {
       user_id: user_id,
       month: month,
@@ -40,7 +38,7 @@ export async function getCategoriesByUserIdCategory(
 ) {
   const optimizedCategory = category.toLowerCase();
 
-  return await prisma.category_expenses.findMany({
+  return await prisma.category_expenses.findFirst({
     where: {
       user_id: user_id,
       category: optimizedCategory,
@@ -68,24 +66,17 @@ export async function addExpensesToCategoryExpenses(
   });
 }
 
-export async function updateExpensesToCategoryExpenses(
-  user_id,
-  price,
-  category,
-  month,
-  year
-) {
-  return await prisma.category_expenses.update({
+export async function updateExpensesToCategoryExpenses(id, price) {
+  const updatedCategory = await prisma.category_expenses.update({
     where: {
-      user_id: user_id,
-      category: category,
-      month: month,
-      year: year,
+      id: id,
     },
     data: {
       price: price,
     },
   });
+
+  return updatedCategory;
 }
 
 export async function deleteExpenseFromCategoryExpense(
@@ -95,15 +86,21 @@ export async function deleteExpenseFromCategoryExpense(
   month,
   year
 ) {
-  return await prisma.category_expenses.update({
+  const findExpense = await getCategoriesByUserIdCategory(
+    user_id,
+    category,
+    month,
+    year
+  );
+
+  const deletedCategory = await prisma.category_expenses.update({
     where: {
-      user_id: user_id,
-      category: category,
-      month: month,
-      year: year,
+      id: findExpense.id,
     },
     data: {
       price: price,
     },
   });
+
+  return deletedCategory;
 }

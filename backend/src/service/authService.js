@@ -7,7 +7,7 @@ export async function registerService(name, email, password) {
   const user = await createUser(name, email, hashedPassword);
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "24h",
+    expiresIn: "30d",
   });
 
   return token;
@@ -25,7 +25,7 @@ export async function loginService(email, password) {
   }
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "24h",
+    expiresIn: "30d",
   });
   return token;
 }

@@ -4,3 +4,5 @@ import { getAllMonthlyExpensesController } from "../controller/monthlyExpensesCo
 const router = express.Router();
 
 router.get("/all", getAllMonthlyExpensesController);
+
+export default router;

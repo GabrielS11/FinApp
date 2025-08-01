@@ -18,17 +18,18 @@ export async function deleteExpenseFromCategoryExpenseService(
     month,
     year
   );
+
+  const categoryId = categoryExpenseBeforeDelete.id;
   const pricebeforeChange = categoryExpenseBeforeDelete.price;
 
   const calculatedPrice = Number(pricebeforeChange) - Number(price);
 
   const deletedExpense = await deleteExpenseFromCategoryExpense(
-    user_id,
-    category,
-    calculatedPrice,
-    month,
-    year
+    categoryId,
+    calculatedPrice
   );
+  console.log(deletedExpense);
+  return deletedExpense;
 }
 
 export async function addExpensesToCategoryExpensesService(
@@ -55,11 +56,39 @@ export async function addExpensesToCategoryExpensesService(
     );
   }
 
-  return await updateExpensesToCategoryExpenses(
+  const startingPrice = checkIfExpenseExists.price;
+  const finalPrice = Number(startingPrice) + Number(price);
+  const categoryID = checkIfExpenseExists.id;
+
+  return await updateExpensesToCategoryExpenses(categoryID, finalPrice);
+}
+
+export async function updateExpensesToCategoryExpensesService(
+  user_id,
+  price,
+  category,
+  month,
+  year
+) {
+  const checkIfExpenseExists = await getCategoriesByUserIdCategory(
     user_id,
-    price,
     category,
     month,
     year
   );
+
+  if (!checkIfExpenseExists) {
+    throw new Error("CAtegory doesnt exists");
+  }
+
+  const startingPrice = checkIfExpenseExists.price;
+  const finalPrice = Number(startingPrice) + Number(price);
+  const categoryID = checkIfExpenseExists.id;
+
+  const updatedExpense = await updateExpensesToCategoryExpenses(
+    categoryID,
+    finalPrice
+  );
+
+  return updatedExpense;
 }
