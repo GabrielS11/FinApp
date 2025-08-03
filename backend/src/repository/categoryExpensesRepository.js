@@ -9,7 +9,7 @@ import prisma from "../prismaClient.js";
  * buscar todas ///// Buscar as deste mes //// buscar por categoria ////// buscar por categoria para atualizar
  *TESTAR UPDATED NAS EXPENSES A VER SE ESTA A ATUALIZAR AQUI E O DELETE
  *
- * MUDAR O MONTHLYEXPENSES PARA TER A LOGICA NO SERVICE!!!!!!!!!!!!!!!!!!!!!!!!!
+ * MUDAR O MONTHLYEXPENSES PARA TER A LOGICA NO SERVICE!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
 
 export async function getCategoriesByUserId(user_id) {
