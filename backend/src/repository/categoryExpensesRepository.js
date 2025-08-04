@@ -80,25 +80,15 @@ export async function updateExpensesToCategoryExpenses(id, price) {
 }
 
 export async function deleteExpenseFromCategoryExpense(
-  user_id,
-  category,
-  price,
-  month,
-  year
+  categoryId,
+  calculatedPrice
 ) {
-  const findExpense = await getCategoriesByUserIdCategory(
-    user_id,
-    category,
-    month,
-    year
-  );
-
   const deletedCategory = await prisma.category_expenses.update({
     where: {
-      id: findExpense.id,
+      id: categoryId,
     },
     data: {
-      price: price,
+      price: calculatedPrice,
     },
   });
 

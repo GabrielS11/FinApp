@@ -3,6 +3,8 @@ import {
   getCategoriesByUserIdCategory,
   addExpensesToCategoryExpenses,
   updateExpensesToCategoryExpenses,
+  getCategoriesByUserId,
+  getCategoriesByUserIdMonthYear,
 } from "../repository/categoryExpensesRepository.js";
 
 export async function deleteExpenseFromCategoryExpenseService(
@@ -70,15 +72,16 @@ export async function updateExpensesToCategoryExpensesService(
   month,
   year
 ) {
+  const optimizedCategory = category.toLowerCase();
   const checkIfExpenseExists = await getCategoriesByUserIdCategory(
     user_id,
-    category,
+    optimizedCategory,
     month,
     year
   );
 
   if (!checkIfExpenseExists) {
-    throw new Error("CAtegory doesnt exists");
+    throw new Error("Category doesnt exist");
   }
 
   const startingPrice = checkIfExpenseExists.price;
@@ -91,4 +94,31 @@ export async function updateExpensesToCategoryExpensesService(
   );
 
   return updatedExpense;
+}
+
+export async function getAllCategoryExpensesService(user_id) {
+  return await getCategoriesByUserId(user_id);
+}
+
+export async function getThisMonthsCategoryExpensesService(
+  user_id,
+  month,
+  year
+) {
+  return await getCategoriesByUserIdMonthYear(user_id, month, year);
+}
+
+export async function getSpecificCategoryExpensesService(
+  user_id,
+  category,
+  month,
+  year
+) {
+  const optimizedCategory = category.toLowerCase();
+  return await getCategoriesByUserIdCategory(
+    user_id,
+    optimizedCategory,
+    month,
+    year
+  );
 }

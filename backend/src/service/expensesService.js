@@ -77,12 +77,13 @@ export async function updateExpenseService(
   const currentExpense = await getOneExpense(id, user_id);
   const startingPrice = Number(currentExpense.price);
 
+  const optimizedCategory = category.toLowerCase();
   const updatedExpense = await updateExpense(
     id,
     user_id,
     description,
     price,
-    category,
+    optimizedCategory,
     date
   );
 
@@ -104,7 +105,7 @@ export async function updateExpenseService(
       const update = await updateExpensesToCategoryExpensesService(
         user_id,
         diference,
-        category,
+        optimizedCategory,
         month,
         year
       );
