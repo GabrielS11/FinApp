@@ -8,11 +8,7 @@ export async function getMontlyExpensesByUserId(user_id) {
   });
 }
 
-export async function getMontlyEpxpensesByUserIdMonthYear(
-  user_id,
-  month,
-  year
-) {
+export async function getMontlyExpensesByUserIdMonthYear(user_id, month, year) {
   const thisMonthsExpenses = await prisma.monthly_expenses.findFirst({
     where: {
       user_id: user_id,
@@ -29,7 +25,7 @@ export async function addExpensesToMonthlyExpenses(
   month,
   year
 ) {
-  const monthsExpenses = await getMontlyEpxpensesByUserIdMonthYear(
+  const monthsExpenses = await getMontlyExpensesByUserIdMonthYear(
     user_id,
     month,
     year
@@ -65,7 +61,7 @@ export async function createMonthlyExpense(user_id, price, month, year) {
 }
 
 export async function deletePriceFromOneExpense(user_id, month, year, price) {
-  const monthlyExpense = await getMontlyEpxpensesByUserIdMonthYear(
+  const monthlyExpense = await getMontlyExpensesByUserIdMonthYear(
     user_id,
     month,
     year
@@ -84,7 +80,7 @@ export async function deletePriceFromOneExpense(user_id, month, year, price) {
 }
 
 export async function updateMonthlyExpensePrice(user_id, month, year, price) {
-  const monthlyExpense = await getMontlyEpxpensesByUserIdMonthYear(
+  const monthlyExpense = await getMontlyExpensesByUserIdMonthYear(
     user_id,
     month,
     year
