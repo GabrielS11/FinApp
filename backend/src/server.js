@@ -21,7 +21,7 @@ app.use("/auth", authRoutes);
 app.use("/expenses", authMiddleware, expensesRoutes);
 app.use("/user", authMiddleware, userRoutes);
 app.use("/monthly-expenses", authMiddleware, monthlyExpensesRoutes);
-app.use("category-expenses", authMiddleware, categoryRoutes);
+app.use("/category-expenses", authMiddleware, categoryRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running in port: ${PORT}`);

@@ -5,15 +5,19 @@ import {
 } from "../service/categoryExpensesService.js";
 
 export async function getAllCategoryExpensesController(req, res) {
-  const user_id = req.user_id;
+  try {
+    const user_id = req.user_id;
+    const allCategoryExpenses = await getAllCategoryExpensesService(user_id);
 
-  const allCategoryExpenses = await getAllCategoryExpensesService(user_id);
+    if (!allCategoryExpenses) {
+      return res.status(404).json({ message: "No category expenses found" });
+    }
 
-  if (!allCategoryExpenses) {
-    return res.json({ message: "No category Expenses available" });
+    return res.json(allCategoryExpenses);
+  } catch (err) {
+    console.error("❌ Erro no controller:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
-
-  return res.json(allCategoryExpenses);
 }
 
 export async function getThisMonthsCategoryExpensesController(req, res) {
