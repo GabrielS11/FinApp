@@ -7,7 +7,6 @@ import {
   listAllExpensesService,
   listOneExpenseService,
 } from "../service/expensesService.js";
-import { PrismaClient } from "@prisma/client/extension";
 
 export async function listMonthExpensesController(req, res) {
   const user_id = req.user_id;
