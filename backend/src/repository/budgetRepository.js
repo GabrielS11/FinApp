@@ -71,6 +71,10 @@ export async function deleteBudget(user_id, category, month, year) {
     year
   );
 
+  if (!budgetToBeDeleted) {
+    throw new Error("Cant find the budget to delete");
+  }
+
   return await prisma.budget.delete({
     where: {
       id: budgetToBeDeleted.id,

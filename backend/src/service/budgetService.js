@@ -3,6 +3,7 @@ import {
   getBudgetByCategory,
   addBudget,
   updateBudget,
+  deleteBudget,
 } from "../repository/budgetRepository.js";
 import { isValidBigDecimal } from "../utils/verifyDecimalValue.js";
 
@@ -11,7 +12,8 @@ export async function getAllBudgetService(user_id) {
 }
 
 export async function getSpecificBudgetService(user_id, category, month, year) {
-  return await getBudgetByCategory(user_id, category, month, year);
+  const optimizedCategory = category.toLowerCase();
+  return await getBudgetByCategory(user_id, optimizedCategory, month, year);
 }
 
 export async function addBudgetService(
@@ -46,6 +48,12 @@ export async function updateBudgetService(
   }
 
   return await updateBudget(user_id, optimizedCategory, max_price, month, year);
+}
+
+export async function deleteBudgetService(user_id, category, month, year) {
+  const optimizedCategory = category.toLowerCase();
+
+  return await deleteBudget(user_id, optimizedCategory, month, year);
 }
 
 // GOTTA TEST EVERYTHIN
