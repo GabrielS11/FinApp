@@ -18,14 +18,15 @@ model alerts {
 }
 
 model budget {
-  id         Int       @id @default(autoincrement())
-  user_id    Int?
-  category   String    @db.VarChar(50)
-  max_price  Decimal   @db.Decimal(10, 2)
-  month      Int
-  year       Int
-  created_in DateTime? @default(now()) @db.Timestamp(6)
-  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+  id            Int       @id @default(autoincrement())
+  user_id       Int?
+  category      String    @db.VarChar(50)
+  max_price     Decimal   @db.Decimal(10, 2)
+  month         Int
+  year          Int
+  created_in    DateTime? @default(now()) @db.Timestamp(6)
+  current_price Decimal?  @db.Decimal(10, 2)
+  users         users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
 }
 
 model expenses {

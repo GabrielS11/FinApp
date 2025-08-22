@@ -81,3 +81,14 @@ export async function deleteBudget(user_id, category, month, year) {
     },
   });
 }
+
+export async function updateBudgetPrice(id, price) {
+  return await prisma.budget.update({
+    where: {
+      id: id,
+    },
+    data: {
+      current_price: price,
+    },
+  });
+}
